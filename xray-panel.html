@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>X-UI Panel v3.0.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-primary:#ffffff;
+  --bg-secondary:#f6f7f9;
+  --bg-tertiary:#f0f1f4;
+  --text-primary:#111827;
+  --text-secondary:#6b7280;
+  --text-tertiary:#9ca3af;
+  --border-light:rgba(0,0,0,0.08);
+  --border-medium:rgba(0,0,0,0.14);
+  --blue:#185FA5;
+  --blue-light:#E6F1FB;
+  --blue-dark:#0C447C;
+  --green:#1D9E75;
+  --green-light:#EAF3DE;
+  --red:#A32D2D;
+  --red-light:#FCEBEB;
+  --amber:#854F0B;
+  --amber-light:#FAEEDA;
+  --gray-light:#F1EFE8;
+  --gray:#5F5E5A;
+  --radius-md:8px;
+  --radius-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg-primary:#1a1d21;
+    --bg-secondary:#23272e;
+    --bg-tertiary:#14171a;
+    --text-primary:#f1f3f5;
+    --text-secondary:#9ca3af;
+    --text-tertiary:#6b7280;
+    --border-light:rgba(255,255,255,0.08);
+    --border-medium:rgba(255,255,255,0.14);
+    --blue-light:rgba(24,95,165,0.18);
+    --green-light:rgba(29,158,117,0.18);
+    --red-light:rgba(163,45,45,0.18);
+    --amber-light:rgba(133,79,11,0.18);
+    --gray-light:rgba(95,94,90,0.18);
+  }
+}
+body{
+  font-family:'Vazirmatn',sans-serif;
+  background:var(--bg-tertiary);
+  color:var(--text-primary);
+  font-size:14px;
+  line-height:1.6;
+}
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;
+  background:var(--bg-primary);
+  border-left:0.5px solid var(--border-light);
+  display:flex;
+  flex-direction:column;
+  flex-shrink:0;
+  z-index:10;
+}
+.logo{
+  padding:1.25rem 1rem;
+  border-bottom:0.5px solid var(--border-light);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.logo-icon{
+  width:34px;height:34px;
+  background:var(--blue);
+  border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:17px;
+  flex-shrink:0;
+}
+.logo-name{font-size:15px;font-weight:600;letter-spacing:-0.3px}
+.logo-ver{font-size:11px;color:var(--text-tertiary)}
+nav{flex:1;padding:.5rem 0;overflow-y:auto}
+.nav-group-label{
+  font-size:11px;color:var(--text-tertiary);
+  padding:.9rem 1rem .3rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.nav-item{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 1rem;
+  font-size:13.5px;
+  color:var(--text-secondary);
+  cursor:pointer;
+  border-radius:0;
+  transition:all .12s;
+  border-right:2px solid transparent;
+}
+.nav-item:hover{background:var(--bg-secondary);color:var(--text-primary)}
+.nav-item.active{
+  background:var(--blue-light);
+  color:var(--blue);
+  font-weight:500;
+  border-right-color:var(--blue);
+}
+.nav-item i{font-size:18px;width:20px;text-align:center;flex-shrink:0}
+.sidebar-footer{
+  padding:1rem;
+  border-top:0.5px solid var(--border-light);
+}
+.server-badge{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--text-secondary);
+}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);flex-shrink:0;
+  animation:blink 2s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{
+  background:var(--bg-primary);
+  border-bottom:0.5px solid var(--border-light);
+  padding:.75rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.page-title{font-size:15px;font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:.75rem}
+.search-wrap{position:relative;display:inline-flex;align-items:center}
+.search-wrap i{
+  position:absolute;right:9px;
+  font-size:15px;color:var(--text-tertiary);
+  pointer-events:none;
+}
+.search-input{
+  padding:6px 32px 6px 12px;
+  font-size:13px;
+  border-radius:var(--radius-md);
+  border:0.5px solid var(--border-medium);
+  background:var(--bg-secondary);
+  color:var(--text-primary);
+  width:200px;
+  font-family:'Vazirmatn',sans-serif;
+  outline:none;
+  transition:border-color .15s;
+}
+.search-input:focus{border-color:var(--blue)}
+.btn{
+  padding:6px 14px;
+  font-size:13px;
+  border-radius:var(--radius-md);
+  border:0.5px solid var(--border-medium);
+  background:var(--bg-primary);
+  color:var(--text-primary);
+  cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:500;
+  transition:all .12s;
+  white-space:nowrap;
+}
+.btn:hover{background:var(--bg-secondary)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-primary:hover{background:var(--blue-dark);border-color:var(--blue-dark)}
+.btn-danger{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-danger:hover{background:#791F1F}
+.btn-sm{padding:5px 10px;font-size:12px}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:1.5rem}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.stat-card{
+  background:var(--bg-primary);
+  border:0.5px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  padding:1rem 1.25rem;
+}
+.stat-icon-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.stat-icon{
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+}
+.stat-label{font-size:12px;color:var(--text-secondary);margin-bottom:.3rem}
+.stat-value{font-size:22px;font-weight:600;letter-spacing:-0.5px}
+.stat-sub{font-size:11.5px;color:var(--text-tertiary);margin-top:3px}
+.stat-up{color:var(--green)}
+.stat-dn{color:#D85A30}
+
+/* TABLE */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.section-title{font-size:14px;font-weight:600}
+.table-wrap{
+  background:var(--bg-primary);
+  border:0.5px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  margin-bottom:1.5rem;
+}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{
+  background:var(--bg-secondary);
+  padding:9px 1rem;text-align:right;
+  font-weight:500;font-size:12px;
+  color:var(--text-secondary);
+  border-bottom:0.5px solid var(--border-light);
+  white-space:nowrap;
+}
+td{
+  padding:10px 1rem;
+  border-bottom:0.5px solid var(--border-light);
+  vertical-align:middle;
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg-secondary)}
+
+/* BADGES */
+.badge{
+  display:inline-flex;align-items:center;
+  padding:2px 8px;border-radius:20px;
+  font-size:11px;font-weight:500;
+  white-space:nowrap;
+}
+.b-green{background:var(--green-light);color:#1D6B53}
+.b-red{background:var(--red-light);color:var(--red)}
+.b-blue{background:var(--blue-light);color:var(--blue)}
+.b-amber{background:var(--amber-light);color:var(--amber)}
+.b-gray{background:var(--gray-light);color:var(--gray)}
+@media(prefers-color-scheme:dark){
+  .b-green{color:#5DCAA5}.b-red{color:#F09595}.b-blue{color:#85B7EB}.b-amber{color:#FAC775}.b-gray{color:#B4B2A9}
+}
+
+/* PROGRESS */
+.progress-wrap{display:flex;align-items:center;gap:8px}
+.progress-bar{height:5px;background:var(--bg-tertiary);border-radius:3px;overflow:hidden;width:90px;flex-shrink:0}
+.progress-fill{height:100%;border-radius:3px;transition:width .3s}
+.p-normal{background:var(--blue)}
+.p-warn{background:#EF9F27}
+.p-danger{background:#E24B4A}
+
+/* ACTION BUTTONS */
+.act-btns{display:flex;gap:5px}
+.icon-btn{
+  width:27px;height:27px;border-radius:6px;
+  border:0.5px solid var(--border-light);
+  background:transparent;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text-secondary);font-size:14px;
+  transition:all .12s;
+}
+.icon-btn:hover{background:var(--bg-secondary);color:var(--text-primary)}
+.icon-btn.del:hover{background:var(--red-light);color:var(--red);border-color:#E24B4A}
+
+/* CHARTS */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.chart-card{
+  background:var(--bg-primary);
+  border:0.5px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  padding:1rem 1.25rem;
+}
+.chart-title{font-size:13px;font-weight:500;margin-bottom:.75rem}
+.bars{display:flex;align-items:flex-end;gap:5px;height:64px}
+.bar{
+  flex:1;border-radius:3px 3px 0 0;
+  transition:opacity .2s;cursor:pointer;
+}
+.bar:hover{opacity:.75}
+.bar-dl{background:var(--blue);opacity:.7}
+.bar-ul{background:var(--green);opacity:.7}
+.bar-labels{
+  display:flex;justify-content:space-between;
+  font-size:10px;color:var(--text-tertiary);margin-top:5px;
+}
+
+/* TABS */
+.tab-bar{
+  display:flex;gap:0;
+  border-bottom:0.5px solid var(--border-light);
+  margin-bottom:1rem;
+}
+.tab{
+  padding:7px 14px;font-size:13px;
+  color:var(--text-secondary);cursor:pointer;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;
+  transition:all .12s;
+  font-family:'Vazirmatn',sans-serif;
+}
+.tab:hover{color:var(--text-primary)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* SETTINGS */
+.settings-card{
+  background:var(--bg-primary);
+  border:0.5px solid var(--border-light);
+  border-radius:var(--radius-lg);
+  padding:1.5rem;
+  max-width:500px;
+  margin-bottom:1.25rem;
+}
+.settings-title{font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:0.5px solid var(--border-light)}
+.form-row{margin-bottom:1rem}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-label{font-size:12px;color:var(--text-secondary);margin-bottom:.3rem;display:block}
+.form-input,.form-select{
+  width:100%;padding:7px 10px;
+  font-size:13px;
+  border-radius:var(--radius-md);
+  border:0.5px solid var(--border-medium);
+  background:var(--bg-secondary);
+  color:var(--text-primary);
+  font-family:'Vazirmatn',sans-serif;
+  outline:none;
+  transition:border-color .15s;
+}
+.form-input:focus,.form-select:focus{border-color:var(--blue)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0}
+.toggle-label{font-size:13px;color:var(--text-primary)}
+.toggle-desc{font-size:11.5px;color:var(--text-tertiary)}
+.toggle{
+  width:38px;height:20px;border-radius:10px;
+  background:var(--bg-tertiary);border:0.5px solid var(--border-medium);
+  cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;
+}
+.toggle.on{background:var(--blue);border-color:var(--blue)}
+.toggle::after{
+  content:'';position:absolute;
+  top:2px;right:2px;
+  width:14px;height:14px;border-radius:50%;
+  background:#fff;transition:transform .2s;
+}
+.toggle.on::after{transform:translateX(-18px)}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.5);
+  display:none;
+  align-items:center;justify-content:center;
+  z-index:999;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--bg-primary);
+  border-radius:var(--radius-lg);
+  border:0.5px solid var(--border-light);
+  width:460px;max-width:95vw;
+  max-height:90vh;overflow-y:auto;
+  padding:1.5rem;
+}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.modal-title{font-size:15px;font-weight:600}
+.modal-footer{
+  display:flex;justify-content:flex-end;gap:8px;
+  margin-top:1.25rem;padding-top:1rem;
+  border-top:0.5px solid var(--border-light);
+}
+
+/* XRAY STATUS */
+.log-box{
+  background:var(--bg-secondary);
+  border:0.5px solid var(--border-light);
+  border-radius:var(--radius-md);
+  padding:1rem;
+  font-family:monospace;font-size:12px;
+  color:var(--text-secondary);
+  height:160px;overflow-y:auto;
+  line-height:1.8;
+}
+.log-line{display:block}
+.log-line.ok{color:var(--green)}
+.log-line.warn{color:#EF9F27}
+.log-line.err{color:#E24B4A}
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+
+/* TOOLTIP */
+[title]{position:relative}
+
+/* MONO */
+.mono{font-family:monospace;font-size:12px;color:var(--text-secondary)}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-icon"><i class="ti ti-shield-bolt"></i></div>
+      <div>
+        <div class="logo-name">X-UI Panel</div>
+        <div class="logo-ver">نسخه 3.0.2</div>
+      </div>
+    </div>
+    <nav>
+      <div class="nav-group-label">مدیریت</div>
+      <div class="nav-item active" onclick="goPage('dashboard',this)">
+        <i class="ti ti-layout-dashboard"></i> داشبورد
+      </div>
+      <div class="nav-item" onclick="goPage('inbounds',this)">
+        <i class="ti ti-server"></i> Inbound‌ها
+      </div>
+      <div class="nav-item" onclick="goPage('clients',this)">
+        <i class="ti ti-users"></i> کلاینت‌ها
+      </div>
+      <div class="nav-group-label">سیستم</div>
+      <div class="nav-item" onclick="goPage('xray',this)">
+        <i class="ti ti-activity"></i> وضعیت Xray
+      </div>
+      <div class="nav-item" onclick="goPage('settings',this)">
+        <i class="ti ti-settings"></i> تنظیمات
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="server-badge">
+        <div class="live-dot"></div>
+        <span>سرور آنلاین &mdash; 17 روز</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="page-title" id="page-title">داشبورد</div>
+      <div class="topbar-right">
+        <div class="search-wrap">
+          <i class="ti ti-search"></i>
+          <input class="search-input" type="text" placeholder="جستجو...">
+        </div>
+        <button class="btn btn-primary" id="add-btn" style="display:none" onclick="openModal('inbound')">
+          <i class="ti ti-plus"></i> افزودن
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-label">کل کاربران</div>
+              <div class="stat-icon" style="background:var(--blue-light);color:var(--blue)"><i class="ti ti-users"></i></div>
+            </div>
+            <div class="stat-value">148</div>
+            <div class="stat-sub stat-up">↑ 12 این هفته</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-label">Inbound فعال</div>
+              <div class="stat-icon" style="background:var(--green-light);color:var(--green)"><i class="ti ti-server"></i></div>
+            </div>
+            <div class="stat-value">7</div>
+            <div class="stat-sub">از ۹ اتصال</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-label">دانلود کل</div>
+              <div class="stat-icon" style="background:var(--blue-light);color:var(--blue)"><i class="ti ti-arrow-down"></i></div>
+            </div>
+            <div class="stat-value">2.4 TB</div>
+            <div class="stat-sub stat-up">↑ 18% نسبت به ماه قبل</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-row">
+              <div class="stat-label">آپلود کل</div>
+              <div class="stat-icon" style="background:var(--amber-light);color:var(--amber)"><i class="ti ti-arrow-up"></i></div>
+            </div>
+            <div class="stat-value">340 GB</div>
+            <div class="stat-sub stat-dn">↓ 4% نسبت به ماه قبل</div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-title">دانلود روزانه — ۷ روز اخیر</div>
+            <div class="bars" id="dl-chart"></div>
+            <div class="bar-labels" id="dl-labels"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">آپلود روزانه — ۷ روز اخیر</div>
+            <div class="bars" id="ul-chart"></div>
+            <div class="bar-labels" id="ul-labels"></div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">کاربران نزدیک به انقضا</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>نام</th><th>پروتکل</th><th>انقضا</th><th>ترافیک مصرفی</th><th>وضعیت</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td>ali_vpn</td>
+                <td><span class="badge b-blue">VLESS</span></td>
+                <td>3 روز دیگر</td>
+                <td>
+                  <div class="progress-wrap">
+                    <div class="progress-bar"><div class="progress-fill p-warn" style="width:91%"></div></div>
+                    <span style="font-size:11px;color:var(--text-secondary)">18.2/20 GB</span>
+                  </div>
+                </td>
+                <td><span class="badge b-amber">در آستانه</span></td>
+              </tr>
+              <tr>
+                <td>sara2024</td>
+                <td><span class="badge b-blue">VMESS</span></td>
+                <td>1 روز دیگر</td>
+                <td>
+                  <div class="progress-wrap">
+                    <div class="progress-bar"><div class="progress-fill p-danger" style="width:98%"></div></div>
+                    <span style="font-size:11px;color:var(--text-secondary)">9.8/10 GB</span>
+                  </div>
+                </td>
+                <td><span class="badge b-red">بحرانی</span></td>
+              </tr>
+              <tr>
+                <td>mmd_net</td>
+                <td><span class="badge b-gray">Trojan</span></td>
+                <td>7 روز دیگر</td>
+                <td>
+                  <div class="progress-wrap">
+                    <div class="progress-bar"><div class="progress-fill p-normal" style="width:88%"></div></div>
+                    <span style="font-size:11px;color:var(--text-secondary)">44/50 GB</span>
+                  </div>
+                </td>
+                <td><span class="badge b-green">عادی</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- INBOUNDS PAGE -->
+      <div class="page" id="page-inbounds">
+        <div class="tab-bar">
+          <div class="tab active" onclick="filterInbounds('all',this)">همه</div>
+          <div class="tab" onclick="filterInbounds('active',this)">فعال</div>
+          <div class="tab" onclick="filterInbounds('disabled',this)">غیرفعال</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>نام</th><th>پروتکل</th><th>پورت</th><th>کاربران</th>
+              <th>دانلود</th><th>آپلود</th><th>وضعیت</th><th>عملیات</th>
+            </tr></thead>
+            <tbody id="inbounds-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CLIENTS PAGE -->
+      <div class="page" id="page-clients">
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>ایمیل / نام</th><th>پروتکل</th><th>ترافیک</th>
+              <th>انقضا</th><th>IP فعال</th><th>وضعیت</th><th>عملیات</th>
+            </tr></thead>
+            <tbody id="clients-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- XRAY STATUS PAGE -->
+      <div class="page" id="page-xray">
+        <div class="info-grid">
+          <div class="stat-card">
+            <div class="stat-label">نسخه Xray</div>
+            <div class="stat-value" style="font-size:18px">1.8.24</div>
+            <div class="stat-sub">آخرین نسخه</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">CPU</div>
+            <div class="stat-value" id="xray-cpu">12%</div>
+            <div class="stat-sub" id="xray-cpu-sub">4 هسته — بار پایین</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">RAM</div>
+            <div class="stat-value" id="xray-ram">1.2 GB</div>
+            <div class="stat-sub">از ۴ GB — ۳۰٪</div>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="stat-card">
+            <div class="stat-label">آپتایم سیستم</div>
+            <div class="stat-value" style="font-size:18px">17 روز</div>
+            <div class="stat-sub">آخرین ریبوت: 13 اردیبهشت</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">دیسک</div>
+            <div class="stat-value" style="font-size:18px">42 GB</div>
+            <div class="stat-sub">از ۱۰۰ GB — ۴۲٪</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">اتصالات فعال</div>
+            <div class="stat-value" id="xray-conn">63</div>
+            <div class="stat-sub">در لحظه</div>
+          </div>
+        </div>
+
+        <div class="section-header"><div class="section-title">سرویس‌ها</div></div>
+        <div class="table-wrap" style="margin-bottom:1.5rem">
+          <table>
+            <thead><tr><th>سرویس</th><th>وضعیت</th><th>PID</th><th>عملیات</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Xray Core</strong></td>
+                <td><span class="badge b-green">در حال اجرا</span></td>
+                <td class="mono">1234</td>
+                <td><div class="act-btns">
+                  <button class="icon-btn" title="ریستارت"><i class="ti ti-refresh"></i></button>
+                  <button class="icon-btn del" title="توقف"><i class="ti ti-player-stop"></i></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><strong>پنل وب</strong></td>
+                <td><span class="badge b-green">در حال اجرا</span></td>
+                <td class="mono">1205</td>
+                <td><div class="act-btns">
+                  <button class="icon-btn" title="ریستارت"><i class="ti ti-refresh"></i></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><strong>Fail2Ban</strong></td>
+                <td><span class="badge b-green">فعال</span></td>
+                <td class="mono">987</td>
+                <td><div class="act-btns">
+                  <button class="icon-btn" title="ریستارت"><i class="ti ti-refresh"></i></button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><strong>nginx (TLS termination)</strong></td>
+                <td><span class="badge b-amber">هشدار</span></td>
+                <td class="mono">2048</td>
+                <td><div class="act-btns">
+                  <button class="icon-btn" title="ریستارت"><i class="ti ti-refresh"></i></button>
+                  <button class="icon-btn del" title="توقف"><i class="ti ti-player-stop"></i></button>
+                </div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-header"><div class="section-title">لاگ‌های Xray</div></div>
+        <div class="log-box" id="log-box">
+          <span class="log-line ok">[2026-05-30 14:12:01] Xray 1.8.24 started</span>
+          <span class="log-line">[2026-05-30 14:12:02] تنظیمات بارگذاری شد</span>
+          <span class="log-line ok">[2026-05-30 14:12:03] inbound vless-reality on :443 listening</span>
+          <span class="log-line ok">[2026-05-30 14:12:03] inbound vmess-ws-tls on :8443 listening</span>
+          <span class="log-line warn">[2026-05-30 14:15:44] کاربر sara2024 به حد ترافیک نزدیک شد</span>
+          <span class="log-line">[2026-05-30 14:20:11] اتصال جدید از 85.x.x.x (IR)</span>
+          <span class="log-line">[2026-05-30 14:21:05] اتصال بسته شد — مدت: 48s</span>
+        </div>
+      </div>
+
+      <!-- SETTINGS PAGE -->
+      <div class="page" id="page-settings">
+        <div class="settings-card">
+          <div class="settings-title">تنظیمات پنل</div>
+          <div class="form-row">
+            <label class="form-label">پورت پنل</label>
+            <input class="form-input" value="54321" type="number">
+          </div>
+          <div class="form-row">
+            <label class="form-label">مسیر URI ورود</label>
+            <input class="form-input" value="/xui/">
+          </div>
+          <div class="form-row-2">
+            <div class="form-row">
+              <label class="form-label">نام کاربری</label>
+              <input class="form-input" value="admin">
+            </div>
+            <div class="form-row">
+              <label class="form-label">رمز عبور جدید</label>
+              <input class="form-input" type="password" placeholder="••••••••">
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="form-label">زبان</label>
+            <select class="form-select">
+              <option>فارسی</option><option>English</option>
+              <option>中文</option><option>Русский</option><option>العربية</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:.5rem">
+            <button class="btn btn-primary"><i class="ti ti-device-floppy"></i> ذخیره</button>
+            <button class="btn btn-danger"><i class="ti ti-refresh"></i> ریست</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-title">گزینه‌های امنیتی</div>
+          <div class="toggle-row">
+            <div>
+              <div class="toggle-label">Fail2Ban</div>
+              <div class="toggle-desc">بلاک خودکار IPهای مشکوک</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-row" style="border-top:0.5px solid var(--border-light)">
+            <div>
+              <div class="toggle-label">HTTPS اجباری</div>
+              <div class="toggle-desc">ریدایرکت HTTP به HTTPS</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-row" style="border-top:0.5px solid var(--border-light)">
+            <div>
+              <div class="toggle-label">احراز هویت دو مرحله‌ای</div>
+              <div class="toggle-desc">Google Authenticator</div>
+            </div>
+            <div class="toggle" onclick="this.classList.toggle('on')"></div>
+          </div>
+          <div class="toggle-row" style="border-top:0.5px solid var(--border-light)">
+            <div>
+              <div class="toggle-label">لاگ‌گیری ترافیک</div>
+              <div class="toggle-desc">ذخیره آمار روزانه</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-title">تلگرام بات</div>
+          <div class="form-row">
+            <label class="form-label">توکن بات</label>
+            <input class="form-input" placeholder="123456:ABCdefGHIjklMNOpqrsTUVwxyz">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Chat ID ادمین</label>
+            <input class="form-input" placeholder="-100xxxxxxxxxx" type="number">
+          </div>
+          <button class="btn btn-primary btn-sm"><i class="ti ti-send"></i> تست اتصال</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">افزودن Inbound جدید</div>
+      <button class="icon-btn" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="modal-body">
+      <div class="form-row">
+        <label class="form-label">نام</label>
+        <input class="form-input" placeholder="مثلاً: vless-reality-443">
+      </div>
+      <div class="form-row-2">
+        <div class="form-row">
+          <label class="form-label">پروتکل</label>
+          <select class="form-select">
+            <option>VLESS</option><option>VMESS</option><option>Trojan</option>
+            <option>Shadowsocks</option><option>Hysteria2</option><option>WireGuard</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">پورت</label>
+          <input class="form-input" placeholder="443" type="number">
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-row">
+          <label class="form-label">انتقال (Transport)</label>
+          <select class="form-select">
+            <option>TCP</option><option>WebSocket</option><option>gRPC</option>
+            <option>HTTP/2</option><option>XHTTP</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">امنیت TLS</label>
+          <select class="form-select">
+            <option>TLS</option><option>Reality</option><option>بدون TLS</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">محدودیت ترافیک (GB — صفر = نامحدود)</label>
+        <input class="form-input" placeholder="0" type="number" value="0">
+      </div>
+      <div class="form-row">
+        <label class="form-label">تاریخ انقضا (اختیاری)</label>
+        <input class="form-input" type="date">
+      </div>
+      <div class="form-row">
+        <label class="form-label">یادداشت</label>
+        <input class="form-input" placeholder="توضیح اختیاری...">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">انصراف</button>
+      <button class="btn btn-primary"><i class="ti ti-check"></i> ذخیره</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---- DATA ---- */
+const INBOUNDS=[
+  {name:'vless-reality',proto:'VLESS',port:443,users:32,dl:'180 GB',ul:'22 GB',status:'active'},
+  {name:'vmess-ws-tls',proto:'VMESS',port:8443,users:18,dl:'95 GB',ul:'11 GB',status:'active'},
+  {name:'trojan-grpc',proto:'Trojan',port:2053,users:9,dl:'41 GB',ul:'5 GB',status:'active'},
+  {name:'ss-2022',proto:'SS',port:9443,users:14,dl:'62 GB',ul:'8 GB',status:'active'},
+  {name:'hysteria2',proto:'HY2',port:443,users:7,dl:'28 GB',ul:'4 GB',status:'active'},
+  {name:'vless-xhttp',proto:'VLESS',port:8080,users:5,dl:'14 GB',ul:'2 GB',status:'disabled'},
+  {name:'wireguard-tun',proto:'WG',port:51820,users:0,dl:'0 GB',ul:'0 GB',status:'disabled'},
+];
+const CLIENTS=[
+  {email:'ali@example.com',proto:'VLESS',dl:'18.2 GB',total:'20 GB',pct:91,exp:'3 روز',ip:1,status:'warn'},
+  {email:'sara2024',proto:'VMESS',dl:'9.8 GB',total:'10 GB',pct:98,exp:'1 روز',ip:1,status:'danger'},
+  {email:'reza_net',proto:'VLESS',dl:'5 GB',total:'50 GB',pct:10,exp:'25 روز',ip:0,status:'ok'},
+  {email:'mmd_vpn',proto:'Trojan',dl:'44 GB',total:'50 GB',pct:88,exp:'7 روز',ip:2,status:'ok'},
+  {email:'hana_net',proto:'HY2',dl:'2 GB',total:'20 GB',pct:10,exp:'نامحدود',ip:1,status:'ok'},
+  {email:'test_user',proto:'SS',dl:'0.1 GB',total:'5 GB',pct:2,exp:'منقضی',ip:0,status:'expired'},
+];
+
+/* ---- PAGES ---- */
+const PAGE_TITLES={dashboard:'داشبورد',inbounds:'Inbound‌ها',clients:'کلاینت‌ها',xray:'وضعیت Xray',settings:'تنظیمات'};
+
+function goPage(pg,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+pg).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.getElementById('page-title').textContent=PAGE_TITLES[pg]||pg;
+  const btn=document.getElementById('add-btn');
+  if(pg==='inbounds'){btn.style.display='inline-flex';btn.innerHTML='<i class="ti ti-plus"></i> افزودن Inbound';btn.onclick=()=>openModal('inbound');}
+  else if(pg==='clients'){btn.style.display='inline-flex';btn.innerHTML='<i class="ti ti-plus"></i> افزودن کاربر';btn.onclick=()=>openModal('client');}
+  else btn.style.display='none';
+  if(pg==='inbounds')renderInbounds(INBOUNDS);
+  if(pg==='clients')renderClients();
+}
+
+/* ---- RENDER INBOUNDS ---- */
+function renderInbounds(data){
+  document.getElementById('inbounds-body').innerHTML=data.map(d=>`
+    <tr>
+      <td><strong>${d.name}</strong></td>
+      <td><span class="badge b-blue">${d.proto}</span></td>
+      <td class="mono">${d.port}</td>
+      <td>${d.users}</td>
+      <td style="font-size:12px;color:var(--text-secondary)">${d.dl}</td>
+      <td style="font-size:12px;color:var(--text-secondary)">${d.ul}</td>
+      <td>${d.status==='active'?'<span class="badge b-green">فعال</span>':'<span class="badge b-gray">غیرفعال</span>'}</td>
+      <td><div class="act-btns">
+        <button class="icon-btn" title="QR Code"><i class="ti ti-qrcode"></i></button>
+        <button class="icon-btn" title="کپی لینک"><i class="ti ti-copy"></i></button>
+        <button class="icon-btn" title="ویرایش"><i class="ti ti-edit"></i></button>
+        <button class="icon-btn del" title="حذف"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function filterInbounds(type,el){
+  el.closest('.tab-bar').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const filtered=type==='all'?INBOUNDS:INBOUNDS.filter(d=>d.status===type);
+  renderInbounds(filtered);
+}
+
+/* ---- RENDER CLIENTS ---- */
+function renderClients(){
+  document.getElementById('clients-body').innerHTML=CLIENTS.map(d=>{
+    const pc=d.pct>=95?'p-danger':d.pct>=80?'p-warn':'p-normal';
+    const {badge,label}=d.status==='ok'?{badge:'b-green',label:'فعال'}
+      :d.status==='warn'?{badge:'b-amber',label:'هشدار'}
+      :d.status==='danger'?{badge:'b-red',label:'بحرانی'}
+      :{badge:'b-gray',label:'منقضی'};
+    return`<tr>
+      <td>${d.email}</td>
+      <td><span class="badge b-blue">${d.proto}</span></td>
+      <td>
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill ${pc}" style="width:${d.pct}%"></div></div>
+          <span style="font-size:11px;color:var(--text-secondary)">${d.dl}/${d.total}</span>
+        </div>
+      </td>
+      <td style="font-size:12px">${d.exp}</td>
+      <td>${d.ip?'<span class="badge b-green">'+d.ip+' IP</span>':'<span class="badge b-gray">آفلاین</span>'}</td>
+      <td><span class="badge ${badge}">${label}</span></td>
+      <td><div class="act-btns">
+        <button class="icon-btn" title="لینک اشتراک"><i class="ti ti-link"></i></button>
+        <button class="icon-btn" title="QR Code"><i class="ti ti-qrcode"></i></button>
+        <button class="icon-btn" title="ویرایش"><i class="ti ti-edit"></i></button>
+        <button class="icon-btn del" title="حذف"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+/* ---- CHARTS ---- */
+function buildChart(wrapperId,labelsId,vals,cls){
+  const max=Math.max(...vals);
+  const days=['ش','ی','د','س','چ','پ','ج'];
+  document.getElementById(wrapperId).innerHTML=
+    vals.map((v,i)=>`<div class="bar ${cls}" style="height:${Math.round(v/max*100)}%" title="${v} GB"></div>`).join('');
+  document.getElementById(labelsId).innerHTML=days.map(d=>`<span>${d}</span>`).join('');
+}
+
+/* ---- MODAL ---- */
+function openModal(type){
+  document.getElementById('modal-title').textContent=type==='inbound'?'افزودن Inbound جدید':'افزودن کاربر جدید';
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+
+/* ---- XRAY LIVE STATS ---- */
+let cpu=12,cpuDir=1;
+setInterval(()=>{
+  cpu+=cpuDir*(Math.floor(Math.random()*4));
+  if(cpu>45)cpuDir=-1;if(cpu<8)cpuDir=1;
+  document.getElementById('xray-cpu').textContent=cpu+'%';
+  document.getElementById('xray-cpu-sub').textContent=`4 هسته — ${cpu<20?'بار پایین':cpu<35?'بار متوسط':'بار بالا'}`;
+  const conn=60+Math.floor(Math.random()*15);
+  document.getElementById('xray-conn').textContent=conn;
+},2500);
+
+/* ---- INIT ---- */
+buildChart('dl-chart','dl-labels',[120,95,180,140,200,160,190],'bar-dl');
+buildChart('ul-chart','ul-labels',[15,12,24,18,28,20,26],'bar-ul');
+</script>
+</body>
+</html>
